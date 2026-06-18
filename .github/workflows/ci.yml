@@ -6,6 +6,8 @@ on:
  pull_request:
     branches:
       - main
+env:
+ IMAGE_NAME: akbarmohd/webapp
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,4 +32,6 @@ jobs:
       - name: Push Docker Image 
         run: | 
           docker push $IMAGE_NAME:${{ github.run_number }} docker push $IMAGE_NAME:latest
-          docker run -d --name webapps -p 8081:8081 $IMAGE_NAME:latest
+          # docker stop webapps
+          # docker rm webapps
+          docker run -d --name webapps -p 8084:8084 $IMAGE_NAME:latest
