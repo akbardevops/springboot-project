@@ -53,6 +53,8 @@ pipeline {
             steps{
                 script{
                      withDockerRegistry(credentialsId: 'docker_creds', toolName: 'docker') {
+                     sh "docker stop webapp"
+                     sh "docker rm webapp"
                      sh "docker run -d --name webapp -p 8081:8081 akbarmohd/webapp:${BUILD_NUMBER}"
                          
                      }
