@@ -1,9 +1,19 @@
+# Stage 1: Build the Java application
+FROM maven:3.9-eclipse-temurin-21 AS build
+
+WORKDIR /app
+
+COPY . .
+
+RUN mvn clean install -DskipTests
+
+#Stage 2: Build an image using stage1 
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-ARG artifact=target/spring-boot-web.jar
+COPY --from=build /app/target/*.jar app.jar
 
-COPY ${artifact} app.jar
+EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","app.jar"]
+CMD ["java", "-jar", "app.jar"]
